@@ -14,6 +14,8 @@ from pathlib import Path
 #import to setup environmental variable
 import os
 from dotenv import load_dotenv
+# JWT Settings (optional but recommended)
+from datetime import timedelta
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -51,6 +53,8 @@ INSTALLED_APPS = [
     'orders',
     'graphene_django',
     'corsheaders',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +89,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 
 # Database
